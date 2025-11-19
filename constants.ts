@@ -42,6 +42,7 @@ export const PROJECTS: Project[] = [
     technologies: ["CrewAI", "Python", "Docker", "RAG", "Multi-Agent"],
     role: "Independent Developer",
     category: "Agentic AI",
+    githubUrl: "https://github.com/quemanhmcr/enterprise-ai-orchestrator",
     blogContent: `
       <div class="space-y-6 text-gray-300">
         <img src="/agent.png" alt="Agent Orchestration" class="w-full rounded-lg border border-white/10 mb-6" />
