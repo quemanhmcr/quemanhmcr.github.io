@@ -85,6 +85,7 @@ export const PROJECTS: Project[] = [
     technologies: ["PyTorch", "Llama 3.2", "WandB", "Distributed Training", "Algorithm"],
     role: "Independent Researcher",
     category: "LLM Core",
+    githubUrl: "https://github.com/quemanhmcr/llama-3.2-pretrain-ops",
     blogContent: `
       <div class="space-y-6 text-gray-300">
         <img src="/ket_que_train.png" alt="Training Loss Chart" class="w-full rounded-lg border border-white/10 mb-6" />
