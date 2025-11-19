@@ -138,7 +138,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ isOpen, setIsOpen }) => {
           {showBubble && (
             <div className="hidden md:flex bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-lg text-sm animate-bounce shadow-lg items-center gap-2">
               <Sparkles size={14} className="text-yellow-400" />
-              <span>Hỏi tôi về kinh nghiệm RAG nhé!</span>
+              <span>Khám phá chiều sâu tư duy kỹ thuật của Mạnh.</span>
             </div>
           )}
 
