@@ -163,6 +163,7 @@ export const PROJECTS: Project[] = [
     technologies: ["Terraform", "ArgoCD", "Kubernetes", "GitOps", "CI/CD"],
     role: "DevOps Engineer",
     category: "MLOps",
+    githubUrl: "https://github.com/quemanhmcr/ml-platform-monorepo",
     blogContent: `
       <div class="space-y-6 text-gray-300">
         <p>
