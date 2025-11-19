@@ -7,6 +7,7 @@ export interface Project {
   role: string;
   category: 'LLM' | 'Computer Vision' | 'Data Science' | 'Agentic AI' | 'LLM Core' | 'MLOps';
   blogContent?: string; // HTML content for the blog post
+  githubUrl?: string;
 }
 
 export interface Experience {

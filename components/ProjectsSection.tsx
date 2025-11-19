@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PROJECTS } from '../constants';
-import { ExternalLink, Code, X, Calendar, User } from 'lucide-react';
+import { ExternalLink, Code, X, Calendar, User, Github } from 'lucide-react';
 import { Project } from '../types';
 
 export const ProjectsSection: React.FC = () => {
@@ -81,6 +81,17 @@ export const ProjectsSection: React.FC = () => {
                         </div>
                         <h2 className="text-3xl md:text-4xl font-serif text-white mb-4">{selectedProject.title}</h2>
                         <p className="text-lg text-gray-400 leading-relaxed">{selectedProject.fullDesc}</p>
+                        
+                        {selectedProject.githubUrl && (
+                            <a 
+                                href={selectedProject.githubUrl} 
+                                target="_blank" 
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-sm text-white transition-all"
+                            >
+                                <Github size={16} /> View Source Code
+                            </a>
+                        )}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 border-y border-white/10 py-6">

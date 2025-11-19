@@ -124,6 +124,7 @@ export const PROJECTS: Project[] = [
     technologies: ["PEFT", "DPO/GRPO", "DeepSeek-R1 Techniques", "BitsAndBytes", "Transformers"],
     role: "Independent Researcher",
     category: "LLM Core",
+    githubUrl: "https://github.com/quemanhmcr/llm-finetuner",
     blogContent: `
       <div class="space-y-6 text-gray-300">
         <p>
