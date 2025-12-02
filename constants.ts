@@ -120,39 +120,63 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "3",
-    title: "LLM Reasoning Framework",
-    shortDesc: "Nghiên cứu kỹ thuật tinh chỉnh khả năng suy luận",
-    fullDesc: "Một framework thử nghiệm nhằm tìm hiểu sâu về các kỹ thuật Fine-tuning tiên tiến. Dự án tích hợp và so sánh hiệu quả của các phương pháp như LoRA/QLoRA/DoRA, cũng như các thuật toán tối ưu hóa mới như DPO và GRPO, tập trung vào việc cải thiện khả năng suy luận logic của mô hình.",
-    technologies: ["PEFT", "DPO/GRPO", "DeepSeek-R1 Techniques", "BitsAndBytes", "Transformers"],
-    role: "Independent Researcher",
-    category: "LLM Core",
-    githubUrl: "https://github.com/quemanhmcr/llm-finetuner",
+    title: "Music Recommendation System",
+    shortDesc: "Hệ thống gợi ý âm nhạc quy mô lớn với Two-Tower",
+    fullDesc: "Dự án xây dựng hệ thống gợi ý âm nhạc quy mô lớn (Large-scale Recommender System) sử dụng kiến trúc Two-Tower cho giai đoạn Retrieval và Deep & Cross Network (DCN-v2) cho giai đoạn Ranking. Hệ thống được thiết kế để xử lý hàng triệu user và item với hiệu năng cao nhờ các kỹ thuật tối ưu hóa như Memory Mapping, FAISS và Mixed Precision Training.",
+    technologies: ["Two-Tower", "DCN-v2", "PyTorch", "FAISS", "Polars"],
+    role: "ML Engineer",
+    category: "Data Science",
+    githubUrl: "https://github.com/quemanhmcr/two-tower-music-recsys",
     blogContent: `
       <div class="space-y-6 text-gray-300">
+        <img src="/metrics.png" alt="Training Metrics" class="w-full rounded-lg border border-white/10 mb-6" />
         <p>
-          Sau khi đã hiểu về Pre-training, mình chuyển sang bài toán Fine-tuning. Mục tiêu của dự án này là tìm hiểu xem làm thế nào để biến một "base model" thành một trợ lý thông minh, có khả năng suy luận logic (Reasoning).
+          Khi tìm hiểu về các hệ thống gợi ý (Recommender Systems) ở các công ty lớn như Spotify hay YouTube, mình nhận ra rằng việc gợi ý chính xác cho hàng triệu người dùng trong thời gian thực là một thách thức kỹ thuật cực kỳ phức tạp. Để hiểu rõ hơn, mình đã tự xây dựng một <strong>Music Recommendation System</strong> hoàn chỉnh với kiến trúc Two-Tower.
         </p>
 
-        <h3 class="text-xl font-semibold text-white mt-4 mb-2">Cấu hình DPO & Alignment</h3>
+        <h3 class="text-xl font-semibold text-white mt-4 mb-2">Kiến trúc Two-Tower: Tách biệt User & Item</h3>
         <p>
-          Điểm nhấn của dự án là việc triển khai <strong>Direct Preference Optimization (DPO)</strong>. Trong file cấu hình <code>dpo_config.py</code>, mình đã phải tinh chỉnh rất kỹ tham số <code>beta</code> (thường để 0.1) để kiểm soát sự phân kỳ KL (KL Divergence), đảm bảo model không đi quá xa so với reference model.
-        </p>
-        <p>
-          Mình cũng học được rằng Learning Rate cho DPO cần phải rất thấp (khoảng <code>5e-7</code>), thấp hơn nhiều so với SFT thông thường, để quá trình hội tụ ổn định.
-        </p>
-
-        <h3 class="text-xl font-semibold text-white mt-4 mb-2">Thử nghiệm các kỹ thuật PEFT</h3>
-        <p>
-          Mình tập trung vào <strong>Parameter-Efficient Fine-Tuning (PEFT)</strong> vì nó phù hợp với tài nguyên cá nhân. Mình đã so sánh hiệu quả giữa:
+          Thay vì sử dụng một mô hình duy nhất để dự đoán điểm số cho mỗi cặp (User, Item), mình áp dụng kiến trúc <strong>Two-Tower (Dual Encoder)</strong>. Ý tưởng cốt lõi là:
         </p>
         <ul class="list-disc list-inside ml-4 space-y-1">
-          <li><strong>LoRA & QLoRA:</strong> Giảm bộ nhớ VRAM đáng kể.</li>
-          <li><strong>DoRA:</strong> Kỹ thuật mới phân tách trọng số (Weight-Decomposed) giúp training ổn định hơn.</li>
+          <li><strong>User Tower:</strong> Học biểu diễn vector của người dùng dựa trên lịch sử nghe nhạc, thời gian, mức độ tương tác.</li>
+          <li><strong>Item Tower:</strong> Học biểu diễn vector của bài hát dựa trên metadata (nghệ sĩ, album) và embedding sẵn có.</li>
+          <li><strong>Không gian chung:</strong> Cả hai tower đều sinh ra vector trong cùng không gian embedding, giúp việc tính similarity cực nhanh bằng phép nhân vô hướng (dot product).</li>
         </ul>
-
-        <h3 class="text-xl font-semibold text-white mt-4 mb-2">Hướng tới DeepSeek-R1</h3>
         <p>
-          Gần đây, mình đang nghiên cứu tích hợp <strong>GRPO</strong> (Group Relative Policy Optimization) - kỹ thuật được sử dụng trong DeepSeek-R1, để cải thiện khả năng giải toán và lập trình mà không cần Reward Model phức tạp.
+          Điều đặc biệt là mình đã triển khai <strong>Weight Sharing</strong> cho Item Embedding giữa hai tower, giúp tiết kiệm VRAM đáng kể khi làm việc với hàng triệu bài hát.
+        </p>
+
+        <h3 class="text-xl font-semibold text-white mt-4 mb-2">Data Pipeline: Tối ưu hóa hiệu năng</h3>
+        <p>
+          Phần lớn thời gian mình dành cho việc xây dựng một data pipeline hiệu quả. Thay vì dùng Pandas như thông thường, mình chuyển sang <strong>Polars</strong> - thư viện xử lý dữ liệu nhanh hơn gấp nhiều lần nhờ cơ chế parallel và lazy evaluation.
+        </p>
+        <p>
+          Mình cũng áp dụng <strong>Memory Mapping (mmap)</strong> để load hàng triệu item mà không tốn RAM, kết hợp với kỹ thuật <strong>Zero-copy data loading</strong> trong PyTorch DataLoader. Điều này giúp giảm thiểu overhead khi training.
+        </p>
+
+        <h3 class="text-xl font-semibold text-white mt-4 mb-2">Training: Mixed Precision & Gradient Accumulation</h3>
+        <p>
+          Để tối ưu tốc độ training trên GPU, mình sử dụng <strong>Mixed Precision Training (AMP)</strong> và <strong>Gradient Accumulation</strong>. Với cơ chế này, batch size hiệu quả có thể lên đến 1024 mà vẫn fit vào GPU 8GB.
+        </p>
+        <p>
+          Mình cũng thiết kế một hệ thống <strong>Checkpoint Rotation</strong> thông minh, chỉ giữ lại 3 checkpoint tốt nhất để tiết kiệm dung lượng ổ cứng.
+        </p>
+
+        <h3 class="text-xl font-semibold text-white mt-4 mb-2">Inference: FAISS cho tìm kiếm nhanh</h3>
+        <p>
+          Sau khi train xong, model sẽ sinh ra vector embedding cho toàn bộ Item. Việc tìm kiếm Top-K item tương đồng nhất cho một User nào đó sẽ cực kỳ chậm nếu dùng vòng lặp thông thường.
+        </p>
+        <p>
+          Để giải quyết, mình tích hợp <strong>FAISS</strong> (Facebook AI Similarity Search) - thư viện tìm kiếm vector similarity cực nhanh. Với FAISS, việc tìm kiếm trong hàng triệu vector chỉ mất vài mili-giây.
+        </p>
+
+        <h3 class="text-xl font-semibold text-white mt-4 mb-2">Kết quả & Bài học</h3>
+        <p>
+          Dự án này giúp mình hiểu sâu về cách các hệ thống recommendation thực tế hoạt động. Mình nhận ra rằng ngoài việc xây dựng model tốt, việc tối ưu hóa data pipeline và inference pipeline cũng quan trọng không kém.
+        </p>
+        <p>
+          Từ việc xử lý dữ liệu với Polars, tối ưu bộ nhớ với Memory Mapping, đến việc triển khai FAISS cho retrieval - tất cả đều là những kỹ năng thực tế mà mình ít được học ở trường nhưng lại cực kỳ cần thiết khi làm việc với dữ liệu lớn.
         </p>
       </div>
     `
@@ -243,12 +267,13 @@ Dưới đây là tài liệu kỹ thuật chi tiết về các dự án tôi đ
   - **Data Pipeline:** MinHash Deduplication (LSH), Aho-Corasick filtering, Streaming dataset.
   - **Training Loop:** Custom Trainer hỗ trợ Mixed Precision (AMP), Gradient Accumulation.
 
-3. PROJECT: LLM REASONING FRAMEWORK (LLM Research)
-- **Concept:** Framework nghiên cứu các kỹ thuật Fine-tuning tập trung vào khả năng suy luận.
-- **Techniques:**
-  - **PEFT:** LoRA, QLoRA, DoRA.
-  - **Alignment:** DPO (Direct Preference Optimization), GRPO (Group Relative Policy Optimization - tương tự DeepSeek-R1).
-  - **Optimization:** Flash Attention 2, Gradient Checkpointing.
+3. PROJECT: MUSIC RECOMMENDATION SYSTEM (Data Science)
+- **Concept:** Hệ thống gợi ý âm nhạc quy mô lớn sử dụng kiến trúc Two-Tower và DCN-v2.
+- **Key Components:**
+  - **Model Architecture:** Two-Tower (Dual Encoder) cho Retrieval, DCN-v2 cho Ranking.
+  - **Data Pipeline:** Polars, Memory Mapping, Zero-copy loading.
+  - **Training:** Mixed Precision (AMP), Gradient Accumulation, Checkpoint Rotation.
+  - **Inference:** FAISS để tìm kiếm vector similarity với tốc độ cao.
 
 4. PROJECT: MLOPS PLATFORM IMPLEMENTATION (MLOps)
 - **Concept:** Xây dựng môi trường MLOps tiêu chuẩn để thực hành GitOps.

@@ -85,10 +85,14 @@ export const AboutSection: React.FC = () => {
 
             {/* Action Buttons */}
             <div className="flex flex-wrap gap-4">
-              <button className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-full font-medium transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_30px_rgba(37,99,235,0.5)]">
+              <a
+                href="/cv.pdf"
+                download="Que_Xuan_Manh_CV.pdf"
+                className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-full font-medium transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_30px_rgba(37,99,235,0.5)]"
+              >
                 <Download size={18} />
                 Download CV
-              </button>
+              </a>
               <button 
                  onClick={() => document.getElementById('projects-section')?.scrollIntoView({behavior: 'smooth'})}
                  className="flex items-center gap-2 px-6 py-3 border border-white/20 hover:bg-white/10 text-white rounded-full font-medium transition-all"
